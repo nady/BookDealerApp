@@ -22,6 +22,34 @@ Done: Restful Service: To retrieve books and magazines from the dealers conditio
 
 Done : For Jquery View:Function that retrieves a list of book dealers via AJAX from the DB (using a RESTful API).
 
+# Code for POST and PUT
+      /**
+     * Accepts Request $request
+     * Returns View|array
+     * @Rest("/books/{id}")
+     * @Method({"PUT","POST"})
+     */
+
+    public function updateBookAction($id, Request $request)
+    {
+
+
+        $book = $this->getDoctrine()->getRepository('BackendAPIBundle:Book')->find($id);
+        if (empty($book)) {
+            return new View("Book not found", Response::HTTP_NOT_FOUND);
+        }
+        $data = json_decode($request->getContent(), true);
+        $form = $this->createForm(new BookType(), $book);
+        $clearMissing = $request->getMethod() != 'PATCH';
+        $form->submit($data, $clearMissing);
+        $sn = $this->getDoctrine()->getManager();
+        $sn->persist($book);
+        $sn->flush();
+
+        $data = $this->get('serializer')->serialize($book, 'json');
+        return new Response($data);
+
+    }
 # Features of the App
 
 # RESTAPIs Available
