@@ -51,23 +51,23 @@ Done : For Jquery View:Function that retrieves a list of book dealers via AJAX f
 
     }
 # Features of the App
-Frontend : To make the app modular and keep Angular modules in sync with Symfony bundles.
-Deeper implementation with your symfony project, We can compile AngularJS using Assetic's filters, and gain performance in page loading.
-Filters for Assetic added here with FrontendBundle in which AngularJs rendered as a bundle
-RESTEnabled Services
-Serializer Bundle
-Nemio Bundle for CORS enabled message communication.
+*Frontend* : To make the app modular and keep Angular modules in sync with Symfony bundles.
+ - The Angular JS frontend is implementated as Bundle with the symfony project, We can compile AngularJS using Assetic's filters, and gain performance in page loading.
+- Filters for Assetic added here with FrontendBundle in which AngularJs rendered as a bundle
+- RESTEnabled Services
+- Serializer Bundle
+- Nemio Bundle for CORS enabled message communication.
 
 
 To run the project and test APIs:
 
-run composer install
-edit parameters.yml to set your mysql user, password and database name
-run php app/console doctrine:database:create
-run php app/console doctrine:schema:create
-Or run php app/console doctrine:schema:update --force
-run php app/console doctrine:fixtures:load (dummy data)
-open your browser and go to http://localhost/{your_project_folder}/app_dev.php/api/tasks to get via api rest all the tasks from Backend/database or go to http://localhost/{your_project_folder}/app_dev.php/api/task/{id} (replace {id} with 1, 2 or 3, example: http://localhost/{your_project_folder}/app_dev.php/api/task/1) to get a custom task.
+- run composer install
+- edit parameters.yml to set your mysql user, password and database name
+- run php app/console doctrine:database:create
+- run php app/console doctrine:schema:create
+- Or run php app/console doctrine:schema:update --force
+- run php app/console doctrine:fixtures:load (dummy data)
+- open your browser and go to http://localhost/{your_project_folder}/app_dev.php/api/books to get via api rest all the books from  Backend/database or go to http://localhost/{your_project_folder}/app_dev.php/api/book/{id} (replace {id} with 1, 2 or 3, example: http://localhost/{your_project_folder}/app_dev.php/api/book/1) to get a custom book.
 
 The links below defines the routes that need to test or consume our Api Rest.
 
@@ -82,18 +82,140 @@ FOSRestBundle annotations: To define the methods of the controller as resources 
 DB Schema:
 
 
+#  Task 1 Screen: 
+Creating a schema.xml ([entity name].yml) file(s) for the db. Below Entities are created 
+- (Book, Magazine, Dealer, BookDealer & MagazineDealer).
 
+Book.orm.yml
 
+    Backend\APIBundle\Entity\Book:
+    type: entity
+    table: book
+    repositoryClass: Backend\APIBundle\Repository\BookRepository
+    id:
+        id:
+            type: integer
+            id: true
+            options:
+                unsigned: false
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 50
+        price:
+            type: decimal
+            scale: 2
+        isSold:
+            type: boolean
+            default: false
+        isBooked:
+            type: boolean
+            default: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        description:
+            type: text
+    oneToMany:
+        book_dealer:
+            targetEntity: Backend\APIBundle\Entity\BookDealer
+            mappedBy: book
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: null
+            joinTable: null
+            orderBy: null
 
-Screen: DB table created from Entities above.
+Magazine.orm.yml 
 
+    Backend\APIBundle\Entity\Magazine:
+    type: entity
+    table: magazine
+    repositoryClass: Backend\APIBundle\Repository\MagazineRepository
+    id:
+        id:
+            type: integer
+            id: true
+            options:
+                unsigned: false
+            generator:
+                strategy: AUTO
+    fields:
+            title:
+                type: string
+                length: 50
+            price:
+                type: decimal
+                scale: 2
+            isSold:
+                type: boolean
+                default: false
+            isBooked:
+                type: boolean
+                default: false
+            createdAt:
+                type: datetime
+                nullable: true
+                column: created_at
+            updatedAt:
+                type: datetime
+                nullable: true
+                column: updated_at
+            description:
+                type: text
+    oneToMany:
+        magazine_dealer:
+            targetEntity: Backend\APIBundle\Entity\MagazineDealer
+            mappedBy: magazine
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: null
+            joinTable: null
+            orderBy: null
 
 ManyToMany Mapping Between Book and Dealer:
+    
+    Backend\APIBundle\Entity\BookDealer:
+    type: entity
+    table: book_dealer
+    repositoryClass: Backend\APIBundle\Repository\BookDealerRepository
+    id:
+        id:
+            type: integer
+            id: true
+        book:
+            associationKey: true
+        dealer:
+            associationKey: true
+    fields:
+        status:
+            type: integer(1)
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+    manyToOne:
+        book:
+            targetEntity: Backend\APIBundle\Entity\Book
+            inversedBy: book_dealer
+            joinColumn:
+                name: book_id
+                referenceColumnName: id
+        dealer:
+            targetEntity: Backend\APIBundle\Entity\Dealer
+            inversedBy: book_dealer
+            joinColumn:
+                name: dealer_id
+                referenceColumnName: id
 
-
-Frontend ScreenShots
-
-
+Frontend ScreenShots:
 
 Backend ScreenShots: Displays bundle & entities creation, dependencies configuration for REST, CORS and Annotations
 
@@ -101,6 +223,7 @@ Backend ScreenShots: Displays bundle & entities creation, dependencies configura
 
 
 # RESTAPIs Available
+
 
 # Challenges
 
