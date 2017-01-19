@@ -51,6 +51,54 @@ Done : For Jquery View:Function that retrieves a list of book dealers via AJAX f
 
     }
 # Features of the App
+Frontend : To make the app modular and keep Angular modules in sync with Symfony bundles.
+Deeper implementation with your symfony project, We can compile AngularJS using Assetic's filters, and gain performance in page loading.
+Filters for Assetic added here with FrontendBundle in which AngularJs rendered as a bundle
+RESTEnabled Services
+Serializer Bundle
+Nemio Bundle for CORS enabled message communication.
+
+
+To run the project and test APIs:
+
+run composer install
+edit parameters.yml to set your mysql user, password and database name
+run php app/console doctrine:database:create
+run php app/console doctrine:schema:create
+Or run php app/console doctrine:schema:update --force
+run php app/console doctrine:fixtures:load (dummy data)
+open your browser and go to http://localhost/{your_project_folder}/app_dev.php/api/tasks to get via api rest all the tasks from Backend/database or go to http://localhost/{your_project_folder}/app_dev.php/api/task/{id} (replace {id} with 1, 2 or 3, example: http://localhost/{your_project_folder}/app_dev.php/api/task/1) to get a custom task.
+
+The links below defines the routes that need to test or consume our Api Rest.
+
+FOSRestBundle annotations: To define the methods of the controller as resources Api Rest e.g for Book Entity.
+
+@Get("/backend/api/books") - To Obtain records
+@Post("/backend/api/books/{array}") - To create records
+@Put("//backend/api/books/{id}") - To edit records
+@Delete("/backend/api/books/{id}") - To delete records
+
+
+DB Schema:
+
+
+
+
+
+Screen: DB table created from Entities above.
+
+
+ManyToMany Mapping Between Book and Dealer:
+
+
+Frontend ScreenShots
+
+
+
+Backend ScreenShots: Displays bundle & entities creation, dependencies configuration for REST, CORS and Annotations
+
+
+
 
 # RESTAPIs Available
 
