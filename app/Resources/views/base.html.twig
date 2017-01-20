@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-ng-app="learnshipApp">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block header %}
+            {% stylesheets '@FrontendClientBundle/Resources/public/css/bootstrap.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    {% block javascripts %}
+        {% javascripts
+        '@FrontendClientBundle/Resources/public/js/jquery.js'
+        '@FrontendClientBundle/Resources/public/js/angular.js'
+        '@FrontendClientBundle/Resources/public/js/angular-ui-router.js'
+        '@FrontendClientBundle/Resources/public/js/angular-resource.js'
+        '@FrontendClientBundle/Resources/public/js/bootstrap.js'
+        '@FrontendClientBundle/Resources/public/js/app.js'
+        '@FrontendClientBundle/Resources/public/js/services.js'
+        '@FrontendClientBundle/Resources/public/js/controllers.js'
+
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    <body ng-controller="BookController">
+    <div >
+        <div class="container">
+            {% block body %}
+
+            {% endblock %}
+        </div>
+        <div id="ng-spinner" class="render" ng-cloak ng-if="$root.spinner"></div>
+    </div>
+
+    </body>
+    {% block footer %}
+        <footer>Credits & copyright Nadeem Bari Mohammed.</footer>
+    {% endblock %}
+</html>
