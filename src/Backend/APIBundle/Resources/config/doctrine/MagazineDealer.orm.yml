@@ -1,0 +1,32 @@
+Backend\APIBundle\Entity\MagazineDealer:
+    type: entity
+    table: magazine_dealer
+    repositoryClass: Backend\APIBundle\Repository\MagazineDealerRepository
+    id:
+        id:
+            type: integer
+            id: true
+        magazine:
+            associationKey: true
+        dealer:
+            associationKey: true
+    fields:
+        status:
+            type: integer(1)
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+    manyToOne:
+        magazine:
+            targetEntity: Backend\APIBundle\Entity\Magazine
+            inversedBy: magazine_dealer
+            joinColumn:
+                name: magazine_id
+                referenceColumnName: id
+        dealer:
+            targetEntity: Backend\APIBundle\Entity\Dealer
+            inversedBy: magazine_dealer
+            joinColumn:
+                name: dealer_id
+                referenceColumnName: id
