@@ -1,0 +1,44 @@
+Backend\APIBundle\Entity\Book:
+    type: entity
+    table: book
+    repositoryClass: Backend\APIBundle\Repository\BookRepository
+    id:
+        id:
+            type: integer
+            id: true
+            options:
+                unsigned: false
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 50
+        price:
+            type: decimal
+            scale: 2
+        isSold:
+            type: boolean
+            default: false
+        isBooked:
+            type: boolean
+            default: false
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+        description:
+            type: text
+    oneToMany:
+        book_dealer:
+            targetEntity: Backend\APIBundle\Entity\BookDealer
+            mappedBy: book
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: null
+            joinTable: null
+            orderBy: null

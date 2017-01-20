@@ -1,0 +1,14 @@
+#backend_api_homepage:
+#    path:     /
+#    defaults: { _controller: BackendAPIBundle:Default:index }
+book:
+    type: rest
+    resource: Backend\APIBundle\Controller\BookController
+
+dealer:
+    type: rest
+    resource: Backend\APIBundle\Controller\DealerController
+
+magazine:
+    type: rest
+    resource: Backend\APIBundle\Controller\MagazineController

@@ -1,0 +1,56 @@
+{# app/Resources/views/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h2>Assignment Tasks</h2>
+            <div class="panel panel-default users-content">
+                <div class="panel-heading">Books {{ '{{ entry.book }}'  }} <a href="javascript:void(0);" class="" onClick="$('.formData').slideToggle();"></a></div>
+                <div class="alert alert-danger none"><p></p></div>
+                <div class="alert alert-success none"><p></p></div>
+                <div class="panel-body none formData">
+                    <form class="form" name="userForm">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" ng-model="tempUserData.name"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" name="email" ng-model="tempUserData.email"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" name="phone" ng-model="tempUserData.phone"/>
+                        </div>
+                        <a href="javascript:void(0);" class="btn btn-warning" onClick="$('.formData').slideUp();">Cancel</a>
+                        <a href="javascript:void(0);" class="btn btn-success" ng-hide="tempUserData.id" ng-click="addUser()">Add User</a>
+                        <a href="javascript:void(0);" class="btn btn-success" ng-hide="!tempUserData.id" ng-click="updateUser()">Update User</a>
+                    </form>
+                </div>
+                <table class="table table-striped">
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="20%">Name</th>
+                        <th width="30%">Description</th>
+                        <th width="20%">price</th>
+                        <th width="20%">Is sold</th>
+                        <th width="14%">Is booked</th>
+                        <th width="10%"></th>
+                    </tr>
+                    <tr ng-repeat="book in books | orderBy:'-created'">
+                        <td>{{ '{{$index + 1}}' }}</td>
+                        <td>{{ '{{book.title}}' }}</td>
+                        <td>{{ '{{book.description}}' }}</td>
+                        <td>{{ '{{book.price}}' }}</td>
+                        <td>{{ '{{book.isSold}}' }}</td>
+                        <td>{{ '{{book.isBooked}}' }}</td>
+                        <td>
+                            <a href="javascript:void(0);" class="" ng-click="editUser(book)"></a>
+                            <a href="javascript:void(0);" class="" ng-click="deleteUser(book)"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

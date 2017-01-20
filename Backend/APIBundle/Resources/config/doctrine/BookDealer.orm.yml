@@ -1,0 +1,32 @@
+Backend\APIBundle\Entity\BookDealer:
+    type: entity
+    table: book_dealer
+    repositoryClass: Backend\APIBundle\Repository\BookDealerRepository
+    id:
+        id:
+            type: integer
+            id: true
+        book:
+            associationKey: true
+        dealer:
+            associationKey: true
+    fields:
+        status:
+            type: integer(1)
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+    manyToOne:
+        book:
+            targetEntity: Backend\APIBundle\Entity\Book
+            inversedBy: book_dealer
+            joinColumn:
+                name: book_id
+                referenceColumnName: id
+        dealer:
+            targetEntity: Backend\APIBundle\Entity\Dealer
+            inversedBy: book_dealer
+            joinColumn:
+                name: dealer_id
+                referenceColumnName: id

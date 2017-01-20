@@ -1,0 +1,43 @@
+Backend\APIBundle\Entity\Dealer:
+    type: entity
+    table: dealer
+    repositoryClass: Backend\APIBundle\Repository\DealerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            options:
+                unsigned: false
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+              length: 50
+        location:
+              type: string
+              length: 255
+        createdAt:
+              type: datetime
+              nullable: true
+              column: created_at
+        updatedAt:
+              type: datetime
+              column: updated_at
+              nullable: true
+    oneToMany:
+        book_dealer:
+            targetEntity: Backend\APIBundle\Entity\BookDealer
+            mappedBy: dealer
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        magazine_dealer:
+            targetEntity: Backend\APIBundle\Entity\MagazineDealer
+            mappedBy: dealer
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: null
+            joinTable: null
+            orderBy: null
