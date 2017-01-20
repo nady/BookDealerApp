@@ -1,0 +1,19 @@
+#backend_api:
+#    resource: "@BackendAPIBundle/Resources/config/routing.yml"
+#    prefix:   /backend
+
+frontend_client:
+    resource: "@FrontendClientBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@FrontendClientBundle/Controller/"
+    type:     annotation
+    prefix:   /
+#REST Router to BACKEND
+backend_api:
+   type: rest
+   resource: "@BackendAPIBundle/Resources/config/routing.yml"
+   prefix:   /backend/api
+   #requirements:
+   #   _method: 'GET, POST, OPTIONS'

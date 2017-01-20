@@ -1,0 +1,13 @@
+{
+  "require_all":
+  {
+    "javascripts":
+    {
+      "foot": "@FrontendClientBundle/Resources/public/js/app.js"
+    },
+    "stylesheets":
+    {
+      "head": "@FrontendClientBundle/Resources/public/css/mystyle.css"
+    }
+  }
+}
