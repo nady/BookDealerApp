@@ -1,0 +1,25 @@
+<table class="table dealertable">
+    <tr>
+        <td><h3>Details for {{dealer.name}}</h3></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Dealer Name</td>
+        <td>{{dealer.name}}</td>
+    </tr>
+    <tr>
+        <td>Location</td>
+        <td>{{dealer.location}}</td>
+    </tr>
+    <tr>
+        <td>Books Count</td>
+        <td>{{dealer.magazines}}</td>
+    </tr>
+    <tr>
+        <td>Magazine Count</td>
+        <td>{{dealer.books}}</td>
+    </tr>
+</table>
+<div>
+    <a class="btn btn-primary" ui-sref="editDealer({id:dealer.id})">Edit</a>
+</div>

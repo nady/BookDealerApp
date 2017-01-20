@@ -1,0 +1,23 @@
+<a ui-sref="newBook" class="btn-primary btn-sm nodecoration">Add New Book</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Mark Sold</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Set Rebate</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Set Rounded</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Avg Price</a>
+
+<table class="table booktable">
+    <tr>
+        <td><h3>All Books</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="book in books">
+      <td>
+			<label><input type="checkbox" checklist-model="books.lists" checklist-value="book.id" value="">{{book.title}}</label>
+        </td>
+        <td>
+            <a class="btn btn-primary" ui-sref="viewBook({id:book.id})">View</a>
+            <a class="btn btn-danger"  ng-click="deleteBook(book)">Delete</a>
+            <a ng-click="statusBookedChange(book)" class="btn-primary btn-sm nodecoration">Mark Booked</a>
+
+        </td>
+    </tr>
+</table>

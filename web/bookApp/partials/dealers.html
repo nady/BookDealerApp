@@ -1,0 +1,17 @@
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Add Dealer console</a>
+
+<table class="table dealerTable">
+    <tr>
+        <td><h3>All Dealers</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="dealer in dealers">
+        <td>
+			<label><input type="checkbox" value="">{{dealer.title}}</label>
+        </td>
+        <td>
+            <a class="btn btn-primary" ui-sref="viewDealer({id:dealer.id})">View</a>
+            <a class="btn btn-danger"  ng-click="deleteDealer(dealer)">Delete</a>
+        </td>
+    </tr>
+</table>

@@ -1,231 +1,68 @@
-# TaskBookApp
-Done: Create a schema.xml (or doctrine/[entity name].yml) file(s) for the db.
-Generate entities from yml to model.php
+Symfony Standard Edition
+========================
 
-Done: Create RESTful Endpoints - A service to mark items as sold or pre-order
-e.g 	getDealersData(List of Magazines or List of Books)
-{ returns object->marked list,
-}
+Welcome to the Symfony Standard Edition - a fully-functional Symfony2
+application that you can use as the skeleton for your new applications.
 
-Done: Function: Expects a list of either magazines or books as an argument and sets a rebate for those.
-Return a reduced set of Magazines or books
-Calculate the rebate based on input
-Store the updated list in DB
+For details on how to download and get started with Symfony, see the
+[Installation][1] chapter of the Symfony Documentation.
 
-Done: Function: Creates prices from "rounded" Euro prices, parameter is to be set / passed in console.
-e.g 4.99 EUR out of 5.00 EUR (rounded)
-e.g turn prices like 5.10 EUR into 4.99 (or 4.39 into 3.99 etc.)
+What's inside?
+--------------
 
-Done : Restful Service: To retrieve the average prices of books or magazines
+The Symfony Standard Edition is configured with the following defaults:
 
-Done: Restful Service: To retrieve books and magazines from the dealers condition is to design the or have the actual SQL (no JPA container)
+  * An AppBundle you can use to start coding;
 
-Done : For Jquery View:Function that retrieves a list of book dealers via AJAX from the DB (using a RESTful API).
+  * Twig as the only configured template engine;
 
-# Code for POST and PUT
-      /**
-     * Accepts Request $request
-     * Returns View|array
-     * @Rest("/books/{id}")
-     * @Method({"PUT","POST"})
-     */
+  * Doctrine ORM/DBAL;
 
-    public function updateBookAction($id, Request $request)
-    {
+  * Swiftmailer;
 
+  * Annotations enabled for everything.
 
-        $book = $this->getDoctrine()->getRepository('BackendAPIBundle:Book')->find($id);
-        if (empty($book)) {
-            return new View("Book not found", Response::HTTP_NOT_FOUND);
-        }
-        $data = json_decode($request->getContent(), true);
-        $form = $this->createForm(new BookType(), $book);
-        $clearMissing = $request->getMethod() != 'PATCH';
-        $form->submit($data, $clearMissing);
-        $sn = $this->getDoctrine()->getManager();
-        $sn->persist($book);
-        $sn->flush();
+It comes pre-configured with the following bundles:
 
-        $data = $this->get('serializer')->serialize($book, 'json');
-        return new Response($data);
+  * **FrameworkBundle** - The core Symfony framework bundle
 
-    }
-# Features of the App
-*Frontend* : To make the app modular and keep Angular modules in sync with Symfony bundles.
- - The Angular JS frontend is implementated as Bundle with the symfony project, We can compile AngularJS using Assetic's filters, and gain performance in page loading.
-- Filters for Assetic added here with FrontendBundle in which AngularJs rendered as a bundle
-- RESTEnabled Services
-- Serializer Bundle
-- Nemio Bundle for CORS enabled message communication.
+  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
+    template and routing annotation capability
 
+  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
 
-To run the project and test APIs:
+  * [**TwigBundle**][8] - Adds support for the Twig templating engine
 
-- run composer install
-- edit parameters.yml to set your mysql user, password and database name
-- run php app/console doctrine:database:create
-- run php app/console doctrine:schema:create
-- Or run php app/console doctrine:schema:update --force
-- run php app/console doctrine:fixtures:load (dummy data)
-- open your browser and go to http://localhost/{your_project_folder}/app_dev.php/api/books to get via api rest all the books from  Backend/database or go to http://localhost/{your_project_folder}/app_dev.php/api/book/{id} (replace {id} with 1, 2 or 3, example: http://localhost/{your_project_folder}/app_dev.php/api/book/1) to get a custom book.
+  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
+    component
 
-The links below defines the routes that need to test or consume our Api Rest.
+  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
+    sending emails
 
-FOSRestBundle annotations: To define the methods of the controller as resources Api Rest e.g for Book Entity.
+  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
 
-@Get("/backend/api/books") - To Obtain records
-@Post("/backend/api/books/{array}") - To create records
-@Put("//backend/api/books/{id}") - To edit records
-@Delete("/backend/api/books/{id}") - To delete records
+  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
+    the web debug toolbar
 
+  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
+    configuring and working with Symfony distributions
 
-DB Schema:
+  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
+    capabilities
 
+  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
+    integration
 
-#  Task 1 Screen: 
-Creating a schema.xml ([entity name].yml) file(s) for the db. Below Entities are created 
-- (Book, Magazine, Dealer, BookDealer & MagazineDealer).
+All libraries and bundles included in the Symfony Standard Edition are
+released under the MIT or BSD license.
 
-Book.orm.yml
+Enjoy!
 
-    Backend\APIBundle\Entity\Book:
-    type: entity
-    table: book
-    repositoryClass: Backend\APIBundle\Repository\BookRepository
-    id:
-        id:
-            type: integer
-            id: true
-            options:
-                unsigned: false
-            generator:
-                strategy: AUTO
-    fields:
-        title:
-            type: string
-            length: 50
-        price:
-            type: decimal
-            scale: 2
-        isSold:
-            type: boolean
-            default: false
-        isBooked:
-            type: boolean
-            default: false
-        createdAt:
-            type: datetime
-            nullable: true
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: true
-            column: updated_at
-        description:
-            type: text
-    oneToMany:
-        book_dealer:
-            targetEntity: Backend\APIBundle\Entity\BookDealer
-            mappedBy: book
-            cascade: {  }
-            fetch: LAZY
-            inversedBy: null
-            joinTable: null
-            orderBy: null
-
-Magazine.orm.yml 
-
-    Backend\APIBundle\Entity\Magazine:
-    type: entity
-    table: magazine
-    repositoryClass: Backend\APIBundle\Repository\MagazineRepository
-    id:
-        id:
-            type: integer
-            id: true
-            options:
-                unsigned: false
-            generator:
-                strategy: AUTO
-    fields:
-            title:
-                type: string
-                length: 50
-            price:
-                type: decimal
-                scale: 2
-            isSold:
-                type: boolean
-                default: false
-            isBooked:
-                type: boolean
-                default: false
-            createdAt:
-                type: datetime
-                nullable: true
-                column: created_at
-            updatedAt:
-                type: datetime
-                nullable: true
-                column: updated_at
-            description:
-                type: text
-    oneToMany:
-        magazine_dealer:
-            targetEntity: Backend\APIBundle\Entity\MagazineDealer
-            mappedBy: magazine
-            cascade: {  }
-            fetch: LAZY
-            inversedBy: null
-            joinTable: null
-            orderBy: null
-
-ManyToMany Mapping Between Book and Dealer:
-    
-    Backend\APIBundle\Entity\BookDealer:
-    type: entity
-    table: book_dealer
-    repositoryClass: Backend\APIBundle\Repository\BookDealerRepository
-    id:
-        id:
-            type: integer
-            id: true
-        book:
-            associationKey: true
-        dealer:
-            associationKey: true
-    fields:
-        status:
-            type: integer(1)
-        createdAt:
-            type: datetime
-        updatedAt:
-            type: datetime
-    manyToOne:
-        book:
-            targetEntity: Backend\APIBundle\Entity\Book
-            inversedBy: book_dealer
-            joinColumn:
-                name: book_id
-                referenceColumnName: id
-        dealer:
-            targetEntity: Backend\APIBundle\Entity\Dealer
-            inversedBy: book_dealer
-            joinColumn:
-                name: dealer_id
-                referenceColumnName: id
-
-Frontend ScreenShots:
-
-Backend ScreenShots: Displays bundle & entities creation, dependencies configuration for REST, CORS and Annotations
-
-
-
-
-# RESTAPIs Available
-
-
-# Challenges
-
-# Steps To Run
-
+[1]:  https://symfony.com/doc/2.8/book/installation.html
+[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
+[7]:  https://symfony.com/doc/2.8/book/doctrine.html
+[8]:  https://symfony.com/doc/2.8/book/templating.html
+[9]:  https://symfony.com/doc/2.8/book/security.html
+[10]: https://symfony.com/doc/2.8/cookbook/email.html
+[11]: https://symfony.com/doc/2.8/cookbook/logging/monolog.html
+[13]: https://symfony.com/doc/2.8/bundles/SensioGeneratorBundle/index.html

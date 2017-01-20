@@ -1,0 +1,25 @@
+<table class="table magazinetable">
+    <tr>
+        <td><h3>Details for {{magazine.title}}</h3></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Magazine Title</td>
+        <td>{{magazine.title}}</td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td>{{magazine.description}}</td>
+    </tr>
+    <tr>
+        <td>Book Year</td>
+        <td>{{magazine.created_at}}</td>
+    </tr>
+    <tr>
+        <td>Book Price</td>
+        <td>{{magazine.price}}</td>
+    </tr>
+</table>
+<div>
+    <a class="btn btn-primary" ui-sref="editMagazine({id:magazine.id})">Edit</a>
+</div>

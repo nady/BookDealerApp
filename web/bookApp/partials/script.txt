@@ -1,0 +1,128 @@
+app.controller("BookController",['$scope', '$routeParams', function($scope,$http, $resource){
+    $scope.books = [];
+    $scope.tempBookData = {};
+    // function to get records from the database
+    // GET Action Method
+    var requestResource = $resource('http://localhost:8080/backend/api/books.json');
+    requestResource.get( {}, function(response){
+        $scope.books = response.books;
+    });
+    /*$scope.getRecords = function(){
+        alert("service loaded");
+        $http.get('http://localhost:8080/backend/api/books', {
+            params:{
+                'type':'json'
+            }
+        }).success(function(response){
+            if(response.status == 'OK'){
+                alert("Data loaded");
+                $scope.books = response.books;
+            }
+        });
+    };
+    */
+    // function to insert or update book data to the database
+    $scope.saveBook = function(type){
+        var data = $.param({
+            'data':$scope.tempBookData,
+            'type':type
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+        };
+        $http.post("action.php", data, config).success(function(response){
+            if(response.status == 'OK'){
+                if(type == 'edit'){
+                    $scope.books[$scope.index].id = $scope.tempBookData.id;
+                    $scope.books[$scope.index].title = $scope.tempBookData.title;
+                    $scope.books[$scope.index].description = $scope.tempBookData.description;
+                    $scope.books[$scope.index].price = $scope.tempBookData.price;
+                    $scope.books[$scope.index].created = $scope.tempBookData.created;
+                }else{
+                    $scope.books.push({
+                        id:response.data.id,
+                        title:response.data.title,
+                        description:response.data.description,
+                        price:response.data.price,
+                        created:response.data.created
+                    });
+                    
+                }
+                $scope.bookForm.$setPristine();
+                $scope.tempBookData = {};
+                $('.formData').slideUp();
+                $scope.messageSuccess(response.msg);
+            }else{
+                $scope.messageError(response.msg);
+            }
+        });
+    };
+    
+    // function to add book data
+    $scope.addBook = function(){
+        $scope.saveBook('add');
+    };
+    
+    // function to edit book data
+    $scope.editBook = function(book){
+        $scope.tempBookData = {
+            id:book.id,
+            name:book.title,
+            email:book.description,
+            phone:book.price,
+            created:book.created
+        };
+        $scope.index = $scope.books.indexOf(book);
+        $('.formData').slideDown();
+    };
+    
+    // function to update book data
+    $scope.updateBook = function(){
+        $scope.saveBook('edit');
+    };
+    
+    // function to delete book data from the database
+    $scope.deleteBook = function(book){
+        var conf = confirm('Are you sure to delete the book?');
+        if(conf === true){
+            var data = $.param({
+                'id': book.id,
+                'type':'delete'    
+            });
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }    
+            };
+            $http.post("action.php",data,config).success(function(response){
+                if(response.status == 'OK'){
+                    var index = $scope.books.indexOf(book);
+                    $scope.books.splice(index,1);
+                    $scope.messageSuccess(response.msg);
+                }else{
+                    $scope.messageError(response.msg);
+                }
+            });
+        }
+    };
+    
+    // function to display success message
+    $scope.messageSuccess = function(msg){
+        $('.alert-success > p').html(msg);
+        $('.alert-success').show();
+        $('.alert-success').delay(5000).slideUp(function(){
+            $('.alert-success > p').html('');
+        });
+    };
+    
+    // function to display error message
+    $scope.messageError = function(msg){
+        $('.alert-danger > p').html(msg);
+        $('.alert-danger').show();
+        $('.alert-danger').delay(5000).slideUp(function(){
+            $('.alert-danger > p').html('');
+        });
+    };
+});

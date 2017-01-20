@@ -1,0 +1,25 @@
+<a ui-href="newMagazine" class="btn-primary btn-sm nodecoration">Add Magazine console</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration" ng-click="changeToSold()">Mark Sold</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Mark Booked</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Set Rebate</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Set Rounded</a>
+<a ui-href="newDealer" class="btn-primary btn-sm nodecoration">Avg Price</a>
+
+<table class="table magazineTable">
+    <tr>
+        <td><h3>All Magazines</h3></td>
+        <td></td>
+    </tr>
+    <tr ng-repeat="magazine in magazines">
+		<td>
+			<label><input type="checkbox"  id="{{magazine.id}}" ng-model="selectedList[magazine.id]">{{magazine.title}}</label>
+        </td>
+		 <td>{{magazine.id}}{{selectedList}}</td>
+        <td>
+            <a class="btn btn-primary" ui-sref="viewMagazine({id:magazine.id})">View</a>
+            <a class="btn btn-danger"  ng-click="deleteMagazine(magazine)">Delete</a>
+        </td>
+		<td>
+		</td>
+    </tr>
+</table>
